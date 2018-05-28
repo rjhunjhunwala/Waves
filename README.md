@@ -4,4 +4,4 @@ Using numerical methods to approximate the second order partial differential hea
 
 Below, are the initial conditions of a live simulation as well as the resulting state after about a minute.
 
-
+![alt tag](https://raw.githubusercontent.com/rjhunjhunwala/Waves/master/Screenshot.png)
