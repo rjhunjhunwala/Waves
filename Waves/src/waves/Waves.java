@@ -36,8 +36,8 @@ public static final AtomicReference<Double> power = new AtomicReference<>(20000.
 	public static final AtomicBoolean hasClicked = new AtomicBoolean(false);
 	public static final AtomicInteger xLoc = new AtomicInteger();
 	public static final AtomicInteger yLoc = new AtomicInteger();
-	public static final int WIDTH = 880;
-	public static final int HEIGHT = 880;
+	public static final int WIDTH = 380;
+	public static final int HEIGHT = 380;
 	public static final double[][] heightMap = new double[WIDTH][HEIGHT];
 	//Factor of 1000, ideally
 	public static final int FPS = 50000;
@@ -99,7 +99,6 @@ yLoc.set(y);
 
 				@Override
 				public void mousePressed(MouseEvent e) {
-					System.out.println("Here!");
 					hasClicked.set(true);
 					xLoc.set(e.getX() - 10);
 					yLoc.set(e.getY() - 10);
@@ -153,7 +152,7 @@ public static final WaveFrame w = new WaveFrame();
 
 		for (int i = 0; i < Waves.WIDTH; i++) {
 			for (int j = 0; j < Waves.HEIGHT; j++) {
-				double height = (6400 * Math.sin(i * Math.PI * 12.0 / Waves.WIDTH) + 6400 * Math.sin(j * Math.PI * 12.0 / Waves.HEIGHT));
+				double height = (6400 * Math.cos(i * Math.PI * 12.0 / Waves.WIDTH) + 6400 * Math.sin(j * Math.PI * 12.0 / Waves.HEIGHT+Math.PI/2));
 //height = 0;		
 //	height = 100*(i * i + j *j) - 10*Waves.HEIGHT*Waves.HEIGHT;
 			
