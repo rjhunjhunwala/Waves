@@ -31,7 +31,7 @@ public class Waves {
 
 	
 	public static final int COLD = -1;
-public static final AtomicReference<Double> power = new AtomicReference<>(20000.0);
+public static final AtomicReference<Double> power = new AtomicReference<>(100000.0);
 	public static final AtomicBoolean flipped = new AtomicBoolean(false);
 	public static final AtomicBoolean hasClicked = new AtomicBoolean(false);
 	public static final AtomicInteger xLoc = new AtomicInteger();
@@ -39,8 +39,9 @@ public static final AtomicReference<Double> power = new AtomicReference<>(20000.
 	public static final int WIDTH = 380;
 	public static final int HEIGHT = 380;
 	public static final double[][] heightMap = new double[WIDTH][HEIGHT];
+ public static final double[][] dHeightMap = new double[WIDTH][HEIGHT];
 	//Factor of 1000, ideally
-	public static final int FPS = 50000;
+	public static final int FPS = 50;
 
 	public static class WaveFrame extends javax.swing.JFrame {
 
@@ -52,6 +53,12 @@ public javax.swing.JPanel p;
 			this.pack();
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setResizable(false);
+
+		}
+
+		public static class WavePanel extends javax.swing.JPanel {
+public WavePanel(){
+	super();
 this.addKeyListener(new KeyListener(){
 
 				@Override
@@ -100,8 +107,8 @@ yLoc.set(y);
 				@Override
 				public void mousePressed(MouseEvent e) {
 					hasClicked.set(true);
-					xLoc.set(e.getX() - 10);
-					yLoc.set(e.getY() - 10);
+					xLoc.set(e.getX());
+					yLoc.set(e.getY());
 				}
 
 				@Override
@@ -120,13 +127,10 @@ flipped.set(!flipped.get());
 				}
 
 			});
-		}
-
-		public static class WavePanel extends javax.swing.JPanel {
-
+}
 			@Override
 			public Dimension getPreferredSize() {
-				return new Dimension(Waves.WIDTH - 10, Waves.HEIGHT - 10);
+				return new Dimension(Waves.WIDTH -10, Waves.HEIGHT-10);
 			}
 
 			@Override
@@ -153,7 +157,7 @@ public static final WaveFrame w = new WaveFrame();
 		for (int i = 0; i < Waves.WIDTH; i++) {
 			for (int j = 0; j < Waves.HEIGHT; j++) {
 				double height = (6400 * Math.cos(i * Math.PI * 12.0 / Waves.WIDTH) + 6400 * Math.sin(j * Math.PI * 12.0 / Waves.HEIGHT+Math.PI/2));
-//height = 0;		
+height = 0;		
 //	height = 100*(i * i + j *j) - 10*Waves.HEIGHT*Waves.HEIGHT;
 			
 			int x = 1;
@@ -162,14 +166,22 @@ public static final WaveFrame w = new WaveFrame();
 
 				heightMap[i][j] = height;
 			}
-		}
 
+		}
+		/*
+			for(int i = 0;i<16;i++){
+				int x = WIDTH/5 * (1+(i>>2));
+						int y = HEIGHT/5 * (1+(i&3));
+						heightMap[x][y] = 150000;
+			}
+		*/
 
 
 		new Thread(new Runnable() {
 
 			public void run() {
-				Timer t = new Timer(1000 / FPS, new ActionListener() {
+				
+				Timer t = new Timer( 1000/ FPS , new ActionListener() {
 					double[][] heightMap = new double[Waves.WIDTH][Waves.HEIGHT];
 
 					@Override
@@ -197,8 +209,9 @@ public static final WaveFrame w = new WaveFrame();
 								double down = get(i, j - 1, heightMap);
 								double up = get(i, j + 1, heightMap);
 								double secondPartialY = up - here * 2 + down;
-
-								Waves.heightMap[i][j] += (secondPartialX + secondPartialY) / 4.2;
+         dHeightMap[i][j] += (secondPartialX + secondPartialY)/6.0;
+									
+								Waves.heightMap[i][j] += dHeightMap[i][j];
 
 							}
 						}
@@ -220,8 +233,19 @@ public static final WaveFrame w = new WaveFrame();
 
 	public static double get(int i, int j, double[][] heightMap) {
 		if (i < 0 || i >= Waves.WIDTH || j < 0 || j >= Waves.HEIGHT) {
-			return COLD;
-		} else {
+			///*
+			if(i<0){
+				i = 0;
+			}else if(i>=WIDTH){
+				i = WIDTH-1;
+			}else if (j<0){
+				j = 0;
+			}else if(j>=HEIGHT){
+				j = HEIGHT-1;
+			}
+		 //*/
+     //return heightMap[(i+WIDTH)%WIDTH][(j+HEIGHT)%HEIGHT];
+		} /*else*/{
 			return heightMap[i][j];
 		}
 

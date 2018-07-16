@@ -1,7 +1,11 @@
 # Waves
 
-Using numerical methods to approximate the second order partial differential heat equation, with the (failed) goal of making visually pleasing patterns.
+Using numerical methods to approximate the second order partial differential wave equation, which can be state as follows.
 
-Below, are the initial conditions of a live simulation as well as the resulting state after about a minute.
+The second derivative with respect to time of the height, is directly proportional to the spatial laplace operator, i.e the divergence of the gradient. 
+
+We allow the user to click on the screen to influence the simulation as it evolves.
+
+Below are some images generated with this engine
 
 ![alt tag](https://raw.githubusercontent.com/rjhunjhunwala/Waves/master/Screenshot.png)
